@@ -4,7 +4,7 @@ const { isDevelopment } = require('./utils.js');
 
 module.exports = {
 	entry: {
-		bundle: './src/app.js',
+		bundle: './src/index.js',
 	},
 	module: {
 		rules: [

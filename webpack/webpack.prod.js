@@ -1,7 +1,13 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 const common = require('./webpack.common.js');
 const { rootPath } = require('./utils.js');
+
+const manifestConfig = require('./configs/manifest');
+const workBoxConfig = require('./configs/workbox-config');
 
 module.exports = merge(common, {
 	output: {
@@ -18,5 +24,7 @@ module.exports = merge(common, {
 				removeEmptyElements: true,
 			},
 		}),
+		new WebpackPwaManifest(manifestConfig),
+		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],
 });

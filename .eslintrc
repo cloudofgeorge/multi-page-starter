@@ -23,7 +23,9 @@
 	"rules": {
 		// Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
 		// e.g. "@typescript-eslint/explicit-function-return-type": "off",
-		"prettier/prettier": "error"
+		"prettier/prettier": "error",
+		"import/prefer-default-export": 0,
+		"import/no-unresolved": 0
 	},
 	"settings": {}
 }
