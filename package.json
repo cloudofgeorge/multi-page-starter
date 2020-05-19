@@ -10,7 +10,7 @@
 		"prettier:fix": "prettier --config ./.prettierrc --write \"src/**/*{.js,.json,.css,.scss}\"",
 		"lint:js": "eslint src --ext .js,.jsx",
 		"lint:styles": "stylelint \"src/**/*{.css,.scss}\"; exit 0",
-		"lint:all": "npm run lint:js && npm run prettier:check",
+		"lint:all": "npm run lint:js && npm run prettier:check && npm run lint:styles",
 		"fix:js": "eslint src --ext .js,.jsx --fix",
 		"fix:all": "npm run fix:js && npm run prettier:fix",
 		"http-server": "http-server -c-1 dist"
