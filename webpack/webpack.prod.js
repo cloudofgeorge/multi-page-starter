@@ -1,5 +1,6 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
@@ -12,8 +13,10 @@ const workBoxConfig = require('./configs/workbox-config');
 module.exports = merge(common, {
 	output: {
 		path: rootPath('dist'),
+		filename: 'main.[hash].js'
 	},
 	plugins: [
+		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
 			minify: {
@@ -23,6 +26,7 @@ module.exports = merge(common, {
 				removeComments: true,
 				removeEmptyElements: true,
 			},
+			hash: true,
 		}),
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
