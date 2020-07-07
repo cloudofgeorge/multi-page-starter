@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -13,7 +13,7 @@ const workBoxConfig = require('./configs/workbox-config');
 module.exports = merge(common, {
 	output: {
 		path: rootPath('dist'),
-		filename: 'main.[hash].js'
+		filename: 'main.[hash].js',
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
