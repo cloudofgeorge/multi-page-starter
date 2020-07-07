@@ -3,6 +3,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 const common = require('./webpack.common.js');
 const { rootPath } = require('./utils.js');
@@ -17,6 +19,19 @@ module.exports = merge(common, {
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: rootPath('src/assets'),
+					to: 'assets',
+				},
+			],
+		}),
+		new ImageminPlugin({
+			pngquant: {
+				quality: '95-100',
+			},
+		}),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
 			minify: {
