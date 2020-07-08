@@ -12,9 +12,9 @@ Webpack + SCSS + PWA
 #### Start dev server
 
 ```sh
-npm run serve:dev
+npm start
 ```
-Runs the app in the development mode. Open [http://localhost:8080](http://localhost:8080) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 #### Build app
 
@@ -30,7 +30,7 @@ npm run prettier:check
 ```
 Lint project with [prettier](https://prettier.io/) and his config
 
-#### Lint TypeScript files
+#### Lint JavaScript files
 
 ```sh
 npm run lint:ts
