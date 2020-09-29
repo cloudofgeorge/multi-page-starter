@@ -1,3 +1,6 @@
-body {
-	background: #fff;
+.content {
+	background: green;
+	@media (--only-mobile) {
+		background: deepskyblue;
+	}
 }
