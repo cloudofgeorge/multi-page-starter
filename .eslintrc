@@ -25,7 +25,8 @@
 		// e.g. "@typescript-eslint/explicit-function-return-type": "off",
 		"prettier/prettier": "error",
 		"import/prefer-default-export": 0,
-		"import/no-unresolved": 0
+		"import/no-unresolved": 0,
+		"import/no-extraneous-dependencies": 0
 	},
 	"settings": {}
 }

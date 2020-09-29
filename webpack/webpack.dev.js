@@ -1,10 +1,10 @@
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common.js');
-const { rootPath, isDevelopment } = require('./utils.js');
+const { rootPath, isDev } = require('./utils.js');
 
 module.exports = merge(common, {
-	devtool: isDevelopment && 'source-map',
+	devtool: isDev && 'source-map',
 	devServer: {
 		port: 3000,
 		open: true,
