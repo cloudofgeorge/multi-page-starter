@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+const globImporter = require('node-sass-glob-importer');
 
 const { isDev } = require('./utils.js');
 
@@ -36,6 +37,7 @@ module.exports = {
 						loader: 'sass-loader',
 						options: {
 							sourceMap: isDev,
+							importer: globImporter(),
 						},
 					},
 				],
