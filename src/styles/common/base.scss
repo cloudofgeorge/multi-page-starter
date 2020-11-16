@@ -1,6 +1,32 @@
+*,
+:after,
+:before {
+	box-sizing: border-box;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: Georgia, serif;
+	font-weight: normal;
+	line-height: 1.5;
+	color: #fff;
+	-webkit-font-smoothing: antialiased;
+}
+
 .content {
-	background: green;
+	text-align: center;
+	height: 100vh;
+	width: 100vw;
+	background: #549f54;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 40px;
+	padding: 40px;
+
 	@media (--only-mobile) {
-		background: deepskyblue;
+		background: #417e93;
 	}
 }

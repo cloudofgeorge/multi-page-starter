@@ -12,14 +12,7 @@ module.exports = merge(common, {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: './src/index.html',
-			minify: {
-				html5: true,
-				collapseWhitespace: true,
-				caseSensitive: true,
-				removeComments: true,
-				removeEmptyElements: true,
-			},
+			template: rootPath('src/index.html'),
 		}),
 	],
 });

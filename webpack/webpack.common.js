@@ -37,7 +37,11 @@ module.exports = {
 						loader: 'sass-loader',
 						options: {
 							sourceMap: isDev,
-							importer: globImporter(),
+							sassOptions: {
+								webpackImporter: false,
+								importer: globImporter(),
+								import: false,
+							},
 						},
 					},
 				],
