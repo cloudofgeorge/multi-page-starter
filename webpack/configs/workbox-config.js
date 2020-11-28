@@ -1,4 +1,4 @@
-const workBoxConfig = {
+module.exports = {
 	// Do not precache images
 	exclude: [/\.(?:png|jpg|jpeg|svg)$/],
 
@@ -23,5 +23,3 @@ const workBoxConfig = {
 		},
 	],
 };
-
-module.exports = workBoxConfig;

@@ -1,17 +1,28 @@
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const TerserPlugin = require('terser-webpack-plugin');
 
-const common = require('./webpack.common.js');
-const { rootPath } = require('./utils.js');
+const common = require('./webpack.common');
+const rootPath = require('./utils/root-path');
+const generateHtmlPlugins = require('./utils/generate-html-plugins');
 
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
+
+const htmlPlugins = generateHtmlPlugins('src/templates', {
+	minify: {
+		html5: true,
+		collapseWhitespace: true,
+		caseSensitive: true,
+		removeComments: true,
+		removeEmptyElements: true,
+	},
+	hash: true,
+});
 
 module.exports = merge(common, {
 	output: {
@@ -72,17 +83,7 @@ module.exports = merge(common, {
 				quality: '95-100',
 			},
 		}),
-		new HtmlWebpackPlugin({
-			template: './src/index.html',
-			minify: {
-				html5: true,
-				collapseWhitespace: true,
-				caseSensitive: true,
-				removeComments: true,
-				removeEmptyElements: true,
-			},
-			hash: true,
-		}),
+		...htmlPlugins,
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],

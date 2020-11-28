@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
 
-const { isDev } = require('./utils.js');
+const isDev = require('./utils/is-dev');
 
 module.exports = {
 	entry: {
