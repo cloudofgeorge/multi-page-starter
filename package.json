@@ -17,13 +17,12 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "lint-staged && git add .",
-			"pre-push": "lint-staged"
+			"pre-commit": "lint-staged && git add"
 		}
 	},
 	"lint-staged": {
-		"*.{js}": [
-			"npm run lint:all"
+		"src/**/*.{js,json,css,scss,md}": [
+			"npm run lint:all && npm run prettier:fix"
 		]
 	},
 	"repository": {
@@ -59,7 +58,7 @@
 		"postcss-loader": "^3.0.0",
 		"postcss-normalize": "^9.0.0",
 		"postcss-preset-env": "^6.7.0",
-		"prettier": "2.0.5",
+		"prettier": "^2.0.5",
 		"sass-loader": "^9.0.1",
 		"style-loader": "^1.2.1",
 		"terser-webpack-plugin": "^4.2.2",

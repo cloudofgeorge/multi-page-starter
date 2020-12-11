@@ -33,9 +33,9 @@ Lint project with [prettier](https://prettier.io/) and his config
 #### Lint JavaScript files
 
 ```sh
-npm run lint:ts
+npm run lint:js
 ```
-Lint (.ts, .tsx) files with ESlint and his config
+Lint .js files with ESlint and his config
 
 #### Lint styles (.css and .scss)
 
