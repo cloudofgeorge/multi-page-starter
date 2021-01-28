@@ -37,6 +37,7 @@
 	"homepage": "https://github.com/cloudofgeorge/one-page-starter#readme",
 	"devDependencies": {
 		"@babel/core": "^7.10.4",
+		"@babel/plugin-syntax-class-properties": "^7.12.1",
 		"@babel/preset-env": "^7.10.4",
 		"babel-eslint": "^10.1.0",
 		"babel-loader": "^8.1.0",
