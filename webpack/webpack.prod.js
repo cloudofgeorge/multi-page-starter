@@ -13,17 +13,6 @@ const generateHtmlPlugins = require('./utils/generate-html-plugins');
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
 
-const htmlPlugins = generateHtmlPlugins('src/templates', {
-	minify: {
-		html5: true,
-		collapseWhitespace: true,
-		caseSensitive: true,
-		removeComments: true,
-		removeEmptyElements: true,
-	},
-	hash: true,
-});
-
 module.exports = merge(common, {
 	output: {
 		path: rootPath('dist'),
@@ -83,7 +72,16 @@ module.exports = merge(common, {
 				quality: '95-100',
 			},
 		}),
-		...htmlPlugins,
+		...generateHtmlPlugins('src/templates', {
+			minify: {
+				html5: true,
+				collapseWhitespace: true,
+				caseSensitive: true,
+				removeComments: true,
+				removeEmptyElements: true,
+			},
+			hash: true,
+		}),
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],

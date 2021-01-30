@@ -5,8 +5,6 @@ const rootPath = require('./utils/root-path');
 const isDev = require('./utils/is-dev');
 const generateHtmlPlugins = require('./utils/generate-html-plugins');
 
-const htmlPlugins = generateHtmlPlugins('src/templates');
-
 module.exports = merge(common, {
 	devtool: isDev && 'source-map',
 	devServer: {
@@ -14,5 +12,5 @@ module.exports = merge(common, {
 		open: true,
 		contentBase: rootPath('src'),
 	},
-	plugins: [...htmlPlugins],
+	plugins: [...generateHtmlPlugins('src/templates')],
 });
