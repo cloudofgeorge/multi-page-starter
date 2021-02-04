@@ -3,7 +3,6 @@
 		"stylelint-scss"
 	],
 	"rules": {
-		"scss/dollar-variable-pattern": "^var",
 		"scss/selector-no-redundant-nesting-selector": true,
 		"max-empty-lines": 1,
 		"indentation": "tab",
