@@ -1,30 +1,28 @@
 const fs = require('fs');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const rootPath = require('./root-path.js');
 
 module.exports = (templateDir, options = {}) => {
-	const templateFiles = fs.readdirSync(rootPath(templateDir));
+	const sourcePath = rootPath(templateDir);
 
-	const data = [];
+	const getAllFiles = dir => {
+		return fs.readdirSync(dir).reduce((files, file) => {
+			const name = path.join(dir, file);
+			const isDirectory = fs.statSync(name).isDirectory();
+			return isDirectory ? [...files, ...getAllFiles(name)] : [...files, name];
+		}, []);
+	};
 
-	for (let index = 0; index < templateFiles.length; index += 1) {
-		const element = templateFiles[index];
-		const parts = element.split('.');
-		const isFile = parts.length > 1;
-
-		if (isFile) {
-			const name = parts[0];
-			const extension = parts[1];
-
-			const plugin = new HtmlWebpackPlugin({
-				filename: `${name}.html`,
-				template: rootPath(`${templateDir}/${name}.${extension}`),
+	return getAllFiles(sourcePath).reduce(
+		(acc, next) => [
+			...acc,
+			new HtmlWebpackPlugin({
+				filename: next.replace(`${sourcePath}/`, ''),
+				template: next,
 				...options,
-			});
-
-			data.push(plugin);
-		}
-	}
-
-	return data;
+			}),
+		],
+		[]
+	);
 };
