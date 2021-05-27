@@ -1,20 +1,27 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isDev = require('./utils/is-dev');
 
 module.exports = {
+	target: 'web',
 	entry: {
 		bundle: './src/index.js',
 	},
 	module: {
 		rules: [
 			{
-				test: /\.m?js$/,
-				exclude: /(node_modules)/,
-				use: {
-					loader: 'babel-loader',
+				test: /\.(js)$/,
+				exclude: /node_modules/,
+				use: ['babel-loader'],
+			},
+			{
+				test: /\.html$/i,
+				loader: 'html-loader',
+				options: {
+					sources: false,
+					minimize: !isDev,
 				},
 			},
 			{
@@ -48,11 +55,5 @@ module.exports = {
 			},
 		],
 	},
-	plugins: [
-		new MiniCssExtractPlugin({
-			filename: 'main-styles.[hash].css',
-			chunkFilename: '[id].css',
-		}),
-		new DuplicatePackageCheckerPlugin(),
-	],
+	plugins: [new DuplicatePackageCheckerPlugin()],
 };

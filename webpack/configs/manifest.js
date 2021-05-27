@@ -9,7 +9,7 @@ const manifestConfig = {
 	crossorigin: 'use-credentials', // can be null, use-credentials or anonymous
 	orientation: 'portrait',
 	display: 'standalone',
-	start_url: '/',
+	start_url: '.',
 	inject: true,
 	fingerprints: true,
 	ios: false,

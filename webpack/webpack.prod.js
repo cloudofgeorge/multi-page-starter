@@ -1,10 +1,10 @@
 const { merge } = require('webpack-merge');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const common = require('./webpack.common');
 const rootPath = require('./utils/root-path');
@@ -13,10 +13,26 @@ const generateHtmlPlugins = require('./utils/generate-html-plugins');
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
 
+const ASSET_PATH = process.env.ASSET_PATH || './';
+
 module.exports = merge(common, {
+	mode: 'production',
 	output: {
 		path: rootPath('dist'),
-		filename: 'main.[hash].js',
+		filename: 'main.[fullhash].js',
+		clean: true,
+		publicPath: ASSET_PATH,
+	},
+	optimization: {
+		minimizer: [
+			compiler => {
+				new TerserPlugin({
+					terserOptions: {
+						compress: {},
+					},
+				}).apply(compiler);
+			},
+		],
 	},
 	module: {
 		rules: [
@@ -55,10 +71,14 @@ module.exports = merge(common, {
 					},
 				],
 			},
+			{
+				test: /\.svg$/,
+				type: 'asset',
+				use: 'svgo-loader',
+			},
 		],
 	},
 	plugins: [
-		new CleanWebpackPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
@@ -73,28 +93,21 @@ module.exports = merge(common, {
 			},
 		}),
 		...generateHtmlPlugins('src/templates', {
+			inject: 'body',
+			scriptLoading: 'defer',
 			minify: {
 				html5: true,
-				collapseWhitespace: true,
+				collapseWhitespace: false,
 				caseSensitive: true,
 				removeComments: true,
 				removeEmptyElements: true,
 			},
-			hash: true,
 		}),
 		new WebpackPwaManifest(manifestConfig),
+		new MiniCssExtractPlugin({
+			filename: 'main-styles.[fullhash].css',
+			chunkFilename: '[id].[chunkhash].css',
+		}),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],
-	optimization: {
-		minimizer: [
-			new TerserPlugin({
-				// Use multi-process parallel running to improve the build speed
-				// Default number of concurrent runs: os.cpus().length - 1
-				parallel: true,
-				// Enable file caching
-				cache: true,
-				sourceMap: true,
-			}),
-		],
-	},
 });
