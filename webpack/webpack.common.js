@@ -1,6 +1,7 @@
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const isDev = require('./utils/is-dev');
 
@@ -56,7 +57,18 @@ module.exports = {
 					},
 				],
 			},
+			{
+				test: /\.svg$/,
+				use: [
+					{
+						loader: 'file-loader',
+					},
+					{
+						loader: 'svgo-loader',
+					},
+				],
+			},
 		],
 	},
-	plugins: [new DuplicatePackageCheckerPlugin()],
+	plugins: [new CircularDependencyPlugin(), new DuplicatePackageCheckerPlugin()],
 };
