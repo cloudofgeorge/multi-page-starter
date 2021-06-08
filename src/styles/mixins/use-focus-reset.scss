@@ -1,0 +1,13 @@
+@mixin useFocusReset {
+	&::-moz-focus-inner {
+		border: 0;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&:-moz-focusring {
+		border: none;
+	}
+}

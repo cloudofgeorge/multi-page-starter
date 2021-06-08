@@ -1,0 +1,26 @@
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+	$var-src: null;
+
+	$var-extmods: (
+		eot: '?',
+		svg: '#' + str-replace($name, ' ', '_'),
+	);
+
+	$var-formats: (
+		otf: 'opentype',
+		ttf: 'truetype',
+	);
+
+	@each $ext in $exts {
+		$var-extmod: if(map-has-key($var-extmods, $ext), $ext + map-get($var-extmods, $ext), $ext);
+		$var-format: if(map-has-key($var-formats, $ext), map-get($var-formats, $ext), $ext);
+		$var-src: append($var-src, url(quote($path + '.' + $var-extmod)) format(quote($var-format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $var-src;
+	}
+}

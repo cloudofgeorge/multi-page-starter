@@ -12,7 +12,7 @@ module.exports = merge(common, {
 	devtool: isDev && 'source-map',
 	devServer: {
 		historyApiFallback: true,
-		contentBase: rootPath('src'),
+		contentBase: rootPath('dist'),
 		open: true,
 		compress: true,
 		hot: true,

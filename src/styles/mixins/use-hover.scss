@@ -1,0 +1,11 @@
+@mixin useHover {
+	@media (hover: hover) and (min-width: 768px) {
+		&:hover {
+			@content;
+		}
+	}
+
+	&:active {
+		@content;
+	}
+}

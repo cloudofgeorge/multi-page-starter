@@ -17,14 +17,6 @@ module.exports = {
 				use: ['babel-loader'],
 			},
 			{
-				test: /\.html$/i,
-				loader: 'html-loader',
-				options: {
-					sources: false,
-					minimize: !isDev,
-				},
-			},
-			{
 				test: /\.(scss|css)$/,
 				use: [
 					MiniCssExtractPlugin.loader,
@@ -49,6 +41,17 @@ module.exports = {
 								importer: globImporter(),
 								import: false,
 							},
+						},
+					},
+				],
+			},
+			{
+				test: /\.(jpg|png|gif|woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
 						},
 					},
 				],

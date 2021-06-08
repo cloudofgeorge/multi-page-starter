@@ -1,0 +1,9 @@
+@import 'use-focus-visible';
+@import 'use-focus-reset';
+
+@mixin useFocus {
+	@include useFocusReset;
+	@include useFocusVisible {
+		box-shadow: 0 0 0 2px yellow;
+	}
+}

@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const common = require('./webpack.common');
 const rootPath = require('./utils/root-path');
@@ -19,19 +20,18 @@ module.exports = merge(common, {
 	mode: 'production',
 	output: {
 		path: rootPath('dist'),
-		filename: 'main.[fullhash].js',
-		clean: true,
+		filename: 'main.[hash].js',
 		publicPath: ASSET_PATH,
 	},
 	optimization: {
 		minimizer: [
-			compiler => {
-				new TerserPlugin({
-					terserOptions: {
-						compress: {},
-					},
-				}).apply(compiler);
-			},
+			new TerserPlugin({
+				parallel: true,
+				sourceMap: true,
+				terserOptions: {
+					// https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+				},
+			}),
 		],
 	},
 	module: {
@@ -43,8 +43,6 @@ module.exports = merge(common, {
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
-							outputPath: 'static/',
-							useRelativePath: true,
 						},
 					},
 					{
@@ -71,14 +69,10 @@ module.exports = merge(common, {
 					},
 				],
 			},
-			{
-				test: /\.svg$/,
-				type: 'asset',
-				use: 'svgo-loader',
-			},
 		],
 	},
 	plugins: [
+		new CleanWebpackPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [
 				{
@@ -101,12 +95,17 @@ module.exports = merge(common, {
 				caseSensitive: true,
 				removeComments: true,
 				removeEmptyElements: true,
+				removeRedundantAttributes: true,
+				useShortDoctype: true,
+				removeEmptyAttributes: true,
+				removeStyleLinkTypeAttributes: true,
+				keepClosingSlash: true,
 			},
 		}),
 		new WebpackPwaManifest(manifestConfig),
 		new MiniCssExtractPlugin({
-			filename: 'main-styles.[fullhash].css',
-			chunkFilename: '[id].[chunkhash].css',
+			filename: 'main-styles.[contenthash].css',
+			chunkFilename: '[id].[contenthash].css',
 		}),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],
