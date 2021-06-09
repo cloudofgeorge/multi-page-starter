@@ -1,6 +1,6 @@
 # One page starter
 
-Webpack + SCSS + PWA
+Webpack 5 + SCSS + PWA
 
 ## Contents
 
@@ -76,7 +76,7 @@ Before, you need install [http-server](https://github.com/http-party/http-server
 ## What is used
 
 #### Base
-- Webpack - [webpack.js.org](https://webpack.js.org/)
+- Webpack 5 - [webpack.js.org](https://webpack.js.org/)
 - SCSS  - [sass-lang.com](https://sass-lang.com/)
 
 #### Tools
