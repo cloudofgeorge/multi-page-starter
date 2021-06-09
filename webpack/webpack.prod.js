@@ -1,69 +1,58 @@
-const { merge } = require('webpack-merge');
+const merge = require('webpack-merge');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const globImporter = require('node-sass-glob-importer');
 
 const common = require('./webpack.common');
+
 const rootPath = require('./utils/root-path');
-const generateHtmlPlugins = require('./utils/generate-html-plugins');
 
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
 
-const ASSET_PATH = process.env.ASSET_PATH || './';
-
 module.exports = merge(common, {
 	mode: 'production',
+	devtool: false,
+	entry: {
+		index: {
+			import: rootPath('src/index.js'),
+			dependOn: ['utils'],
+		},
+		utils: ['nanoid'],
+	},
 	output: {
-		path: rootPath('dist'),
-		filename: 'main.[hash].js',
-		publicPath: ASSET_PATH,
+		filename: 'js/[name].[contenthash].bundle.js',
+		publicPath: '/',
+		clean: true,
 	},
 	optimization: {
-		minimizer: [
-			new TerserPlugin({
-				parallel: true,
-				sourceMap: true,
-				terserOptions: {
-					// https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-				},
-			}),
-		],
+		runtimeChunk: 'single',
+	},
+	performance: {
+		hints: 'warning',
+		maxEntrypointSize: 512000,
+		maxAssetSize: 512000,
 	},
 	module: {
 		rules: [
 			{
-				test: /\.(jpg|png|gif)$/,
+				test: /\.(c|sa|sc)ss$/i,
 				use: [
+					MiniCssExtractPlugin.loader,
 					{
-						loader: 'file-loader',
-						options: {
-							name: '[name].[ext]',
-						},
+						loader: 'css-loader',
+						options: { importLoaders: 1 },
 					},
 					{
-						loader: 'image-webpack-loader',
+						loader: 'sass-loader',
 						options: {
-							mozjpeg: {
-								progressive: true,
-								quality: 65,
-							},
-							optipng: {
-								enabled: true,
-							},
-							pngquant: {
-								quality: '65-90',
-								speed: 4,
-							},
-							gifsicle: {
-								interlaced: false,
-							},
-							webp: {
-								quality: 75,
+							sourceMap: false,
+							sassOptions: {
+								webpackImporter: false,
+								importer: globImporter(),
+								import: false,
 							},
 						},
 					},
@@ -72,41 +61,14 @@ module.exports = merge(common, {
 		],
 	},
 	plugins: [
-		new CleanWebpackPlugin(),
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: rootPath('src/assets'),
-					to: 'assets',
-				},
-			],
+		new MiniCssExtractPlugin({
+			filename: 'css/[name].[contenthash].css',
+			chunkFilename: '[id].css',
 		}),
 		new ImageminPlugin({
-			pngquant: {
-				quality: '95-100',
-			},
-		}),
-		...generateHtmlPlugins('src/templates', {
-			inject: 'body',
-			scriptLoading: 'defer',
-			minify: {
-				html5: true,
-				collapseWhitespace: false,
-				caseSensitive: true,
-				removeComments: true,
-				removeEmptyElements: true,
-				removeRedundantAttributes: true,
-				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
-				keepClosingSlash: true,
-			},
+			test: /\.(jpe?g|png|gif|svg)$/i,
 		}),
 		new WebpackPwaManifest(manifestConfig),
-		new MiniCssExtractPlugin({
-			filename: 'main-styles.[contenthash].css',
-			chunkFilename: '[id].[contenthash].css',
-		}),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],
 });

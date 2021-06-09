@@ -1,2 +1,8 @@
+// Normalize
 @import './utils/normalize.scss';
-@import './common/base.scss';
+
+// Mixins
+@import './mixins/**/*.scss';
+
+// Common
+@import './common/**/*.scss';

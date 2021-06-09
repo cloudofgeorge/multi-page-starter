@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const rootPath = require('./root-path.js');
+const rootPath = require('./root-path');
 
 module.exports = (templateDir, options = {}) => {
 	const sourcePath = rootPath(templateDir);

@@ -1,4 +1,4 @@
-@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+@mixin font-face($name, $path, $exts: eot woff2 woff ttf svg, $weight: null, $style: null) {
 	$var-src: null;
 
 	$var-extmods: (

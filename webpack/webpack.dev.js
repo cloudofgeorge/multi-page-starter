@@ -1,35 +1,24 @@
 const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const merge = require('webpack-merge');
 
 const common = require('./webpack.common');
+
 const rootPath = require('./utils/root-path');
-const isDev = require('./utils/is-dev');
-const generateHtmlPlugins = require('./utils/generate-html-plugins');
 
 module.exports = merge(common, {
 	mode: 'development',
-	devtool: isDev && 'source-map',
+	devtool: 'source-map',
 	devServer: {
-		historyApiFallback: true,
-		contentBase: rootPath('dist'),
-		open: true,
 		compress: true,
+		contentBase: rootPath('dist'),
+		historyApiFallback: true,
 		hot: true,
-		port: 8080,
+		open: true,
+		port: 8800,
+		clientLogLevel: 'silent',
 		watchOptions: {
 			ignored: /node_modules/,
 		},
 	},
-	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		...generateHtmlPlugins('src/templates', {
-			inject: 'body',
-			scriptLoading: 'defer',
-		}),
-		new MiniCssExtractPlugin({
-			filename: 'main-styles.css',
-			chunkFilename: '[id].css',
-		}),
-	],
+	plugins: [new webpack.HotModuleReplacementPlugin()],
 });

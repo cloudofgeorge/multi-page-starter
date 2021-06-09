@@ -1,0 +1,3 @@
+$var-path: '/public/assets/fonts/';
+
+@include font-face('Roboto-Regular-font', $var-path + 'Roboto-Regular', 'ttf');
