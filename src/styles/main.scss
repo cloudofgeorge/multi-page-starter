@@ -6,3 +6,7 @@
 
 // Common
 @import './common/**/*.scss';
+
+body {
+	background: url('/public/assets/img/pwa_icon/pwa.png');
+}

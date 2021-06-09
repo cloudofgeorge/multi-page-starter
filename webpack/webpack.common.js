@@ -3,7 +3,6 @@ const Dotenv = require('dotenv-webpack');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isDev = require('./utils/is-dev');
 const rootPath = require('./utils/root-path');
@@ -17,6 +16,7 @@ module.exports = {
 		publicPath: '/',
 		crossOriginLoading: 'anonymous',
 		module: true,
+		assetModuleFilename: 'assets/[hash][ext][query]',
 		environment: {
 			arrowFunction: true,
 			bigIntLiteral: false,
@@ -44,8 +44,37 @@ module.exports = {
 				use: ['babel-loader'],
 			},
 			{
-				test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+				test: /\.html$/,
+				use: [
+					{
+						loader: 'html-loader',
+						options: {
+							sources: true,
+							esModule: false,
+						},
+					},
+				],
+			},
+			{
+				test: /\.(woff|woff2|eot|ttf|otf)$/i,
 				type: 'asset/resource',
+				generator: {
+					filename: 'fonts/[hash][ext][query]',
+				},
+			},
+			{
+				test: /\.(jpe?g|png|gif|svg)$/i,
+				type: 'asset/resource',
+				generator: {
+					filename: 'img/[hash][ext][query]',
+				},
+			},
+			{
+				test: /\.mp4$/,
+				type: 'asset/resource',
+				generator: {
+					filename: 'video/[hash][ext][query]',
+				},
 			},
 			{
 				test: /\.(c|sa|sc)ss$/i,
@@ -74,38 +103,14 @@ module.exports = {
 					},
 				],
 			},
-			{
-				test: /\.md$/i,
-				use: ['html-loader', 'markdown-loader'],
-			},
-			{
-				test: /\.(jpe?g|png|gif|svg?)$/i,
-				type: 'asset',
-			},
-			{
-				test: /\.(woff|woff2|eot|ttf|otf)$/i,
-				type: 'asset/resource',
-				generator: {
-					filename: 'fonts/[hash][ext][query]',
-				},
-			},
 		],
 	},
 	plugins: [
 		new webpack.ProgressPlugin(),
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: rootPath('public/assets'),
-					globOptions: {
-						ignore: ['**/fonts/**/*'],
-					},
-				},
-			],
-		}),
 		...generateHtmlPlugins('public/templates', {
 			inject: 'body',
 			scriptLoading: 'defer',
+			publicPath: '',
 		}),
 		new CircularDependencyPlugin(),
 		new DuplicatePackageCheckerPlugin(),
