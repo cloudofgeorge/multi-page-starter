@@ -110,7 +110,7 @@ module.exports = {
 		...generateHtmlPlugins('public/templates', {
 			inject: 'body',
 			scriptLoading: 'defer',
-			publicPath: '',
+			publicPath: '/',
 		}),
 		new CircularDependencyPlugin(),
 		new DuplicatePackageCheckerPlugin(),

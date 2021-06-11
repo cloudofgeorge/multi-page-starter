@@ -1,7 +1,8 @@
 const merge = require('webpack-merge');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { extendDefaultPlugins } = require('svgo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const globImporter = require('node-sass-glob-importer');
 
@@ -66,8 +67,31 @@ module.exports = merge(common, {
 			filename: 'css/[name].[contenthash].css',
 			chunkFilename: '[id].css',
 		}),
-		new ImageminPlugin({
-			test: /\.(jpe?g|png|gif|svg)$/i,
+		new ImageMinimizerPlugin({
+			minimizerOptions: {
+				plugins: [
+					['gifsicle', { interlaced: true }],
+					['jpegtran', { progressive: true }],
+					['optipng', { optimizationLevel: 5 }],
+					[
+						'svgo',
+						{
+							plugins: extendDefaultPlugins([
+								{
+									name: 'removeViewBox',
+									active: false,
+								},
+								{
+									name: 'addAttributesToSVGElement',
+									params: {
+										attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
+									},
+								},
+							]),
+						},
+					],
+				],
+			},
 		}),
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
