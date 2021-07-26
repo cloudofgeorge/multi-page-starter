@@ -1,4 +1,4 @@
-const rootPath = require('../utils/root-path');
+const { rootPath } = require('../utils/root-path');
 
 const manifestConfig = {
 	name: 'Progressive Web App',

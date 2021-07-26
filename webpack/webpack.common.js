@@ -1,12 +1,13 @@
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const isDev = require('./utils/is-dev');
-const rootPath = require('./utils/root-path');
-const generateHtmlPlugins = require('./utils/generate-html-plugins');
+const { isDev } = require('./utils/is-dev');
+const { rootPath } = require('./utils/root-path');
+const { generatePluginsArray } = require('./utils/generate-plugins-array');
 
 module.exports = {
 	entry: rootPath('src/index.js'),
@@ -107,10 +108,16 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.ProgressPlugin(),
-		...generateHtmlPlugins('public/templates', {
-			inject: 'body',
-			scriptLoading: 'defer',
-			publicPath: '/',
+		...generatePluginsArray('public/templates', next => {
+			const newPath = rootPath('public/templates');
+
+			return new HtmlWebpackPlugin({
+				filename: next.replace(`${newPath}/`, ''),
+				template: next,
+				inject: 'body',
+				scriptLoading: 'defer',
+				publicPath: '/',
+			});
 		}),
 		new CircularDependencyPlugin(),
 		new DuplicatePackageCheckerPlugin(),

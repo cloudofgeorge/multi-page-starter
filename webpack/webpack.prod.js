@@ -5,10 +5,9 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { extendDefaultPlugins } = require('svgo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const globImporter = require('node-sass-glob-importer');
-
 const common = require('./webpack.common');
 
-const rootPath = require('./utils/root-path');
+const { rootPath } = require('./utils/root-path');
 
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
@@ -29,7 +28,16 @@ module.exports = merge(common, {
 		clean: true,
 	},
 	optimization: {
-		runtimeChunk: 'single',
+		splitChunks: {
+			cacheGroups: {
+				styles: {
+					name: 'styles',
+					type: 'css/mini-extract',
+					chunks: 'all',
+					enforce: true,
+				},
+			},
+		},
 	},
 	performance: {
 		hints: 'warning',

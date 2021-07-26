@@ -1,18 +1,9 @@
-const fs = require('fs');
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const rootPath = require('./root-path');
+const { rootPath } = require('./root-path');
+const { getAllFiles } = require('./get-all-files');
 
-module.exports = (templateDir, options = {}) => {
+const generateHtmlPlugins = (templateDir, options = {}) => {
 	const sourcePath = rootPath(templateDir);
-
-	const getAllFiles = dir => {
-		return fs.readdirSync(dir).reduce((files, file) => {
-			const name = path.join(dir, file);
-			const isDirectory = fs.statSync(name).isDirectory();
-			return isDirectory ? [...files, ...getAllFiles(name)] : [...files, name];
-		}, []);
-	};
 
 	return getAllFiles(sourcePath).reduce(
 		(acc, next) => [
@@ -26,3 +17,5 @@ module.exports = (templateDir, options = {}) => {
 		[]
 	);
 };
+
+module.exports = { generateHtmlPlugins };
