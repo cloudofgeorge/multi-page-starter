@@ -4,10 +4,9 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { extendDefaultPlugins } = require('svgo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
 const common = require('./webpack.common');
-
-const { rootPath } = require('./utils/root-path');
 
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
@@ -15,23 +14,17 @@ const workBoxConfig = require('./configs/workbox-config');
 module.exports = merge(common, {
 	mode: 'production',
 	devtool: false,
-	entry: {
-		index: {
-			import: rootPath('src/index.js'),
-			dependOn: ['utils'],
-		},
-		utils: ['nanoid'],
-	},
 	output: {
 		filename: 'js/[name].[contenthash].bundle.js',
 		publicPath: '/',
 		clean: true,
 	},
 	optimization: {
+		minimizer: [new CssMinimizerPlugin()],
 		splitChunks: {
 			cacheGroups: {
-				styles: {
-					name: 'styles',
+				mainStyles: {
+					name: 'main',
 					type: 'css/mini-extract',
 					chunks: 'all',
 					enforce: true,
@@ -101,6 +94,7 @@ module.exports = merge(common, {
 				],
 			},
 		}),
+
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],

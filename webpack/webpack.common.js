@@ -10,7 +10,13 @@ const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
 
 module.exports = {
-	entry: rootPath('src/index.js'),
+	entry: {
+		index: {
+			import: rootPath('src/index.js'),
+			dependOn: ['utils'],
+		},
+		utils: ['nanoid'],
+	},
 	output: {
 		path: rootPath('dist'),
 		filename: 'js/[name].bundle.js',
