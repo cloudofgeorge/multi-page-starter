@@ -2,6 +2,7 @@ const merge = require('webpack-merge');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const HtmlCriticalWebpackPlugin = require('html-critical-webpack-plugin');
 const { extendDefaultPlugins } = require('svgo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -10,6 +11,9 @@ const common = require('./webpack.common');
 
 const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
+const { rootPath } = require('./utils/root-path');
+const { generatePluginsArray } = require('./utils/generate-plugins-array');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: 'production',
@@ -68,6 +72,26 @@ module.exports = merge(common, {
 			filename: 'css/[name].[contenthash].css',
 			chunkFilename: '[id].css',
 		}),
+
+		...generatePluginsArray(
+			'public/templates',
+			next => {
+				return new HtmlCriticalWebpackPlugin({
+					base: rootPath('dist'),
+					src: next,
+					dest: next,
+					inline: true,
+					minify: true,
+					extract: true,
+					width: 1920,
+					height: 1080,
+					penthouse: {
+						blockJSRequests: false,
+					},
+				});
+			},
+			true
+		),
 		new ImageMinimizerPlugin({
 			minimizerOptions: {
 				plugins: [
