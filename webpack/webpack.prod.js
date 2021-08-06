@@ -13,7 +13,6 @@ const manifestConfig = require('./configs/manifest');
 const workBoxConfig = require('./configs/workbox-config');
 const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: 'production',
@@ -72,7 +71,6 @@ module.exports = merge(common, {
 			filename: 'css/[name].[contenthash].css',
 			chunkFilename: '[id].css',
 		}),
-
 		...generatePluginsArray(
 			'public/templates',
 			next => {
@@ -118,7 +116,6 @@ module.exports = merge(common, {
 				],
 			},
 		}),
-
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],

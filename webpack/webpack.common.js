@@ -70,7 +70,7 @@ module.exports = {
 				},
 			},
 			{
-				test: /\.(jpe?g|png|gif|svg)$/i,
+				test: /\.(jpe?g|png|gif|svg|ico)$/i,
 				type: 'asset/resource',
 				generator: {
 					filename: 'img/[hash][ext][query]',
@@ -81,6 +81,13 @@ module.exports = {
 				type: 'asset/resource',
 				generator: {
 					filename: 'video/[hash][ext][query]',
+				},
+			},
+			{
+				test: /\.(xml)$/i,
+				type: 'asset/resource',
+				generator: {
+					filename: 'resources/[hash][ext][query]',
 				},
 			},
 			{

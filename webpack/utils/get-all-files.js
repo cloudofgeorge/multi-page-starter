@@ -6,7 +6,7 @@ const getAllFiles = (dir, onlyFileNames = false) => {
 		const name = path.join(dir, file);
 		const resultName = onlyFileNames ? file : name;
 		const isDirectory = fs.statSync(name).isDirectory();
-		return isDirectory ? [...files, ...getAllFiles(name)] : [...files, resultName];
+		return isDirectory ? [...files, ...getAllFiles(name, onlyFileNames)] : [...files, resultName];
 	}, []);
 };
 
