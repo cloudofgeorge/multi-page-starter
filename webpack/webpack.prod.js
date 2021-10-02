@@ -1,12 +1,13 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const TerserPlugin = require('terser-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const HtmlCriticalWebpackPlugin = require('html-critical-webpack-plugin');
-const { extendDefaultPlugins } = require('svgo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const globImporter = require('node-sass-glob-importer');
+
 const common = require('./webpack.common');
 
 const manifestConfig = require('./configs/manifest');
@@ -23,7 +24,14 @@ module.exports = merge(common, {
 		clean: true,
 	},
 	optimization: {
-		minimizer: [new CssMinimizerPlugin()],
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				test: /\.js(\?.*)?$/i,
+				extractComments: true,
+			}),
+			new CssMinimizerPlugin(),
+		],
 		splitChunks: {
 			cacheGroups: {
 				mainStyles: {
@@ -80,7 +88,7 @@ module.exports = merge(common, {
 					dest: next,
 					inline: true,
 					minify: true,
-					extract: true,
+					extract: false,
 					width: 1920,
 					height: 1080,
 					penthouse: {
@@ -99,7 +107,7 @@ module.exports = merge(common, {
 					[
 						'svgo',
 						{
-							plugins: extendDefaultPlugins([
+							plugins: [
 								{
 									name: 'removeViewBox',
 									active: false,
@@ -110,7 +118,7 @@ module.exports = merge(common, {
 										attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
 									},
 								},
-							]),
+							],
 						},
 					],
 				],

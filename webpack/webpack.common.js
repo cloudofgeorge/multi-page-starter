@@ -5,7 +5,7 @@ const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack
 const globImporter = require('node-sass-glob-importer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const { isDev } = require('./utils/is-dev');
+const { isDev } = require('./utils/modes');
 const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
 
@@ -48,7 +48,14 @@ module.exports = {
 			{
 				test: /\.(js)$/,
 				exclude: /node_modules/,
-				use: ['babel-loader'],
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							sourceMap: isDev,
+						},
+					},
+				],
 			},
 			{
 				test: /\.html$/,
