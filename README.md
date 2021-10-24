@@ -1,6 +1,6 @@
 # One page starter
 
-Webpack 5 + SCSS + PWA
+Webpack 5 + SCSS + PWA + Images optimization + Tools 
 
 ## Contents
 
