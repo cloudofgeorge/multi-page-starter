@@ -50,7 +50,7 @@ Lint styles file format on all the project with [stylelint](https://github.com/s
 ```sh
 npm run lint:all
 ```
-Lint all the project with ESlint, [prettier](https://prettier.io/) and [stylelint](https://github.com/stylelint/stylelint)
+Lint all the project with [ESlint](https://eslint.org/), [prettier](https://prettier.io/) and [stylelint](https://github.com/stylelint/stylelint)
 
 
 #### Fix code format
@@ -60,7 +60,7 @@ npm run prettier:fix
 ```
 Fix code format on all the project with [prettier](https://prettier.io/) and his config
 
-#### Fix all the project
+#### Fix all in the project
 
 ```sh
 npm run fix:all
