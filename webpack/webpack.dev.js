@@ -14,7 +14,6 @@ module.exports = merge(common, {
 			directory: rootPath('dist'),
 		},
 		historyApiFallback: true,
-		hot: true,
 		open: true,
 		port: 8800,
 		client: {
