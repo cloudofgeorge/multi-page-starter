@@ -23,15 +23,14 @@ module.exports = merge(common, {
 		publicPath: '/',
 		clean: true,
 	},
+	performance: {
+		hints: 'warning',
+		maxEntrypointSize: 512000,
+		maxAssetSize: 512000,
+	},
 	optimization: {
+		runtimeChunk: 'single',
 		minimize: true,
-		minimizer: [
-			new TerserPlugin({
-				test: /\.js(\?.*)?$/i,
-				extractComments: true,
-			}),
-			new CssMinimizerPlugin(),
-		],
 		splitChunks: {
 			cacheGroups: {
 				mainStyles: {
@@ -42,11 +41,42 @@ module.exports = merge(common, {
 				},
 			},
 		},
-	},
-	performance: {
-		hints: 'warning',
-		maxEntrypointSize: 512000,
-		maxAssetSize: 512000,
+		minimizer: [
+			new TerserPlugin({
+				test: /\.js(\?.*)?$/i,
+				extractComments: true,
+			}),
+			new CssMinimizerPlugin(),
+			new ImageMinimizerPlugin({
+				minimizer: {
+					implementation: ImageMinimizerPlugin.imageminGenerate,
+					options: {
+						plugins: [
+							['gifsicle', { interlaced: true }],
+							['jpegtran', { progressive: true }],
+							['optipng', { optimizationLevel: 5 }],
+							[
+								'svgo',
+								{
+									plugins: [
+										{
+											name: 'removeViewBox',
+											active: false,
+										},
+										{
+											name: 'addAttributesToSVGElement',
+											params: {
+												attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
+											},
+										},
+									],
+								},
+							],
+						],
+					},
+				},
+			}),
+		],
 	},
 	module: {
 		rules: [
@@ -98,32 +128,6 @@ module.exports = merge(common, {
 			},
 			true
 		),
-		new ImageMinimizerPlugin({
-			minimizerOptions: {
-				plugins: [
-					['gifsicle', { interlaced: true }],
-					['jpegtran', { progressive: true }],
-					['optipng', { optimizationLevel: 5 }],
-					[
-						'svgo',
-						{
-							plugins: [
-								{
-									name: 'removeViewBox',
-									active: false,
-								},
-								{
-									name: 'addAttributesToSVGElement',
-									params: {
-										attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
-									},
-								},
-							],
-						},
-					],
-				],
-			},
-		}),
 		new WebpackPwaManifest(manifestConfig),
 		new WorkboxPlugin.GenerateSW(workBoxConfig),
 	],
