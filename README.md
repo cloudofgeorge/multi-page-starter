@@ -6,7 +6,7 @@ Webpack 5 + SCSS + PWA + Images optimization + Tools
 ## Contents
 
 - [Scripts](#scripts)
-- [What is used](#what-is-used)
+- [What are used](#what-are-used)
 
 ## Scripts
 
@@ -74,7 +74,7 @@ npm run build && http-server
 ```
 Before, you need install [http-server](https://github.com/http-party/http-server) globally - `npm install http-server -g`
 
-## What is used
+## What are used
 
 #### Base
 - Webpack 5 - [webpack.js.org](https://webpack.js.org/)
