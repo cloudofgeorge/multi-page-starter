@@ -100,6 +100,6 @@
 		"rimraf": "^3.0.2"
 	},
 	"dependencies": {
-		"nanoid": "^3.1.23"
+		"nanoid": "^3.1.31"
 	}
 }
