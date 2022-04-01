@@ -5,5 +5,5 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const prod = require('./webpack.prod');
 
 module.exports = merge(prod, {
-	plugins: [new BundleAnalyzerPlugin()],
+  plugins: [new BundleAnalyzerPlugin()],
 });

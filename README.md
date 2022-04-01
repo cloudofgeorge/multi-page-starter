@@ -1,4 +1,4 @@
-# One page starter
+# Multi page starter
 Starter pack and tools for creation of standalone HTML pages without any frameworks.
 
 Webpack 5 + SCSS + PWA + Images optimization + Tools 

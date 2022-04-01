@@ -1,11 +1,11 @@
 @mixin useFocusVisible {
-	@supports (-moz-appearance: none) {
-		&:focus-visible {
-			@content;
-		}
-	}
+  @supports (-moz-appearance: none) {
+    &:focus-visible {
+      @content;
+    }
+  }
 
-	&[data-focus-visible-added] {
-		@content;
-	}
+  &[data-focus-visible-added] {
+    @content;
+  }
 }
