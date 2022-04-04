@@ -53,12 +53,6 @@ Thumbs.db
 /webpack-stats.html
 /stats.txt
 
-### react ###
-*.log
-logs
-**/*.backup.*
-**/*.back.*
-
 *.sublime*
 
 psd
