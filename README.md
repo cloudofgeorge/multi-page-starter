@@ -1,7 +1,7 @@
 # Multi page starter
 Starter pack and tools for creation of standalone HTML pages without any frameworks.
 
-Webpack 5 + Typescript + HTML multi-page +SCSS + PWA + Images optimization + Tools
+Webpack 5 + Typescript + HTML multi page + SCSS + PWA + Images optimization + Tools
 
 ## Contents
 
