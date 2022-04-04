@@ -11,7 +11,7 @@ const { generatePluginsArray } = require('./utils/generate-plugins-array');
 module.exports = {
   entry: {
     index: {
-      import: rootPath('src/index.js'),
+      import: rootPath('src/index.ts'),
       dependOn: ['utils'],
     },
     utils: ['nanoid'],
@@ -34,9 +34,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@': rootPath('src/app'),
+      '@': rootPath('src'),
     },
-    extensions: ['.mjs', '.js', 'jsx', '.json'],
+    extensions: ['.mjs', '.js', '.ts', '.json'],
   },
   experiments: {
     topLevelAwait: true,
@@ -45,7 +45,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.(ts|js)?$/,
         exclude: /node_modules/,
         use: [
           {
@@ -62,7 +62,7 @@ module.exports = {
           {
             loader: 'html-loader',
             options: {
-              sources: true,
+              sources: isDev,
               esModule: false,
             },
           },

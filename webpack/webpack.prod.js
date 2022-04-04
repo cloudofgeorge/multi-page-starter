@@ -124,7 +124,7 @@ module.exports = merge(common, {
           },
         });
       },
-      true
+      false
     ),
     new WebpackPwaManifest(manifestConfig),
     new WorkboxPlugin.GenerateSW(workBoxConfig),

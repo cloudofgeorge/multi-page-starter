@@ -16,7 +16,8 @@ body {
 
   // all variables source in src/styles/utils/breakpoints.js
   @media (--only-mobile) {
-    background: #6a4193;
+    background: #9b36ff;
+    color: #fff;
   }
 }
 

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "pretty": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "noLib": false,
+    "sourceMap": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "isolatedModules": true,
+    "types": ["node", "jest"],
+    "typeRoots": ["./node_modules/@types"],
+    "baseUrl": "./"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "dist", "public", "webpack", "jest", "examples", "acceptance-tests"]
+}
