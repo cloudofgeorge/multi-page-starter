@@ -1,7 +1,7 @@
 # Multi page starter
 Starter pack and tools for creation of standalone HTML pages without any frameworks.
 
-Webpack 5 + SCSS + PWA + Images optimization + Tools 
+Webpack 5 + Typescript + HTML multi-page +SCSS + PWA + Images optimization + Tools
 
 ## Contents
 
@@ -66,6 +66,28 @@ Fix code format of whole of the project with [prettier](https://prettier.io/) an
 npm run fix:all
 ```
 Fix typing errors and code format
+
+
+#### Run tests
+
+```sh
+npm run test
+```
+Starting UNIT test by jest
+
+#### Run tests in watch mode
+
+```sh
+npm run test:watch
+```
+Starting UNIT test by jest in watch mode
+
+#### Collect test coverage
+
+```sh
+npm run test:coverage
+```
+Collect UNIT test coverage by jest
 
 #### Run local build
 
