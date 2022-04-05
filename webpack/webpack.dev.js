@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 
 const { rootPath } = require('./utils/root-path');
+const { OUTPUT_PATH } = require('./constants');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -10,7 +11,7 @@ module.exports = merge(common, {
   devServer: {
     compress: true,
     static: {
-      directory: rootPath('dist'),
+      directory: rootPath(OUTPUT_PATH),
     },
     historyApiFallback: true,
     open: true,

@@ -7,6 +7,8 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const { isDev } = require('./utils/modes');
 const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
+const { getCleanFilePath } = require("./utils/get-clean-file-path");
+const { OUTPUT_PATH } = require("./constants");
 
 module.exports = {
   entry: {
@@ -17,7 +19,7 @@ module.exports = {
     utils: ['nanoid'],
   },
   output: {
-    path: rootPath('dist'),
+    path: rootPath(OUTPUT_PATH),
     filename: 'js/[name].bundle.js',
     publicPath: '/',
     crossOriginLoading: 'anonymous',
@@ -123,10 +125,7 @@ module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
     ...generatePluginsArray('public/templates', next => {
-      const newPath = rootPath('public/templates');
-      const pathWithoutAbsolute = next.replace(`${newPath}/`, '');
-      const bringEverythingToHTML = value => value.replace(/\.(.*)$/g, '.html');
-      const cleanFilename = bringEverythingToHTML(pathWithoutAbsolute);
+      const cleanFilename = getCleanFilePath(next);
 
       return new HtmlWebpackPlugin({
         filename: cleanFilename,
