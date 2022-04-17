@@ -94,5 +94,11 @@ module.exports = {
         'max-len': 'off',
       },
     },
+    {
+      files: ['src/templates/**/**'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
   ],
 };

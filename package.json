@@ -8,11 +8,11 @@
     "build": "webpack -c ./webpack/webpack.prod.js",
     "clean": "npm run clean:build & npm run clean:cache",
     "clean:cache": "rimraf ./webpack/cache",
-    "clean:build": "rimraf public build dist",
-    "lint:js": "eslint 'src/*/**/*.{js,ts,json,md,css,scss}'",
+    "clean:build": "rimraf dist",
+    "lint": "npm run lint:js && npm run prettier:check && npm run lint:styles",
+    "lint:js": "eslint 'src/*/**/*.{js,ts,json}'",
     "lint:styles": "stylelint 'src/**/*.{css,scss}'",
     "lint:styles:fix": "npm run lint:styles -- --fix",
-    "lint": "npm run lint:js && npm run prettier:check && npm run lint:styles",
     "prettier:check": "prettier --config ./.prettierrc --list-different \"src/**/*.{js,ts,json,css,scss}\"",
     "prettier:fix": "prettier --config ./.prettierrc --write \"src/**/*.{js,ts,json,css,scss}\"",
     "fix:js": "npm run lint:js -- --fix",
@@ -25,14 +25,15 @@
     "test:update": "jest -u",
     "dev:analyze": "npm run dev -- --env.addons=bundleanalyzer",
     "analyze": "webpack --analyze -c ./webpack/analyze.js",
-    "http-server": "http-server -c-1 dist"
+    "http-server": "http-server -c-1 dist",
+    "postinstall": "simple-git-hooks"
   },
   "simple-git-hooks": {
     "pre-commit": "npx pretty-quick --staged && git add .",
     "pre-push": "npx lint-staged"
   },
   "lint-staged": {
-    "{src}/**/*.{js,jsx,ts,tsx,json,md}": [
+    "{src}/**/*.{js,ts}": [
       "npm run lint:js"
     ],
     "src/**/*.{css,scss}": [
@@ -50,6 +51,7 @@
   },
   "homepage": "https://github.com/cloudofgeorge/Multi page starter#readme",
   "dependencies": {
+    "handlebars": "^4.7.7",
     "nanoid": "^3.1.23"
   },
   "devDependencies": {
@@ -83,6 +85,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
+    "handlebars-loader": "^1.7.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "image-minimizer-webpack-plugin": "^3.0.1",

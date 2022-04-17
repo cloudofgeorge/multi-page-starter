@@ -1,18 +1,11 @@
 // Normalize
-@import 'src/styles/vendors/normalize.scss';
+@import './vendors/normalize.scss';
 
 // Mixins
-@import './mixins/font-face.scss';
-@import './mixins/full-width.scss';
-@import './mixins/interactive-element.scss';
-@import './mixins/reset.scss';
-@import './mixins/respond-to.scss';
-@import './mixins/use-focus.scss';
-@import './mixins/use-focus-reset.scss';
-@import './mixins/use-focus-visible.scss';
-@import './mixins/use-hover.scss';
-@import './mixins/visually-hidden.scss';
+@import './mixins/index.scss';
 
 // Common
-@import './base/fonts.scss';
-@import './base/common.scss';
+@import './base/index.scss';
+
+// Components
+@import './components/index.scss';

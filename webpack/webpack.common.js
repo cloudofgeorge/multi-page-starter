@@ -7,8 +7,8 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const { isDev } = require('./utils/modes');
 const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
-const { getCleanFilePath } = require("./utils/get-clean-file-path");
-const { OUTPUT_PATH } = require("./constants");
+const { getCleanFilePath } = require('./utils/get-clean-file-path');
+const { OUTPUT_PATH, PAGES_PATH, ASSET_PATH } = require('./constants');
 
 module.exports = {
   entry: {
@@ -35,10 +35,13 @@ module.exports = {
     },
   },
   resolve: {
+    modules: [rootPath('node_modules')],
     alias: {
       '@': rootPath('src'),
+      assets: rootPath(ASSET_PATH),
+      handlebars: 'handlebars/dist/handlebars.min.js',
     },
-    extensions: ['.mjs', '.js', '.ts', '.json'],
+    extensions: ['.hbs', '.js', '.ts', '.json'],
   },
   experiments: {
     topLevelAwait: true,
@@ -60,6 +63,13 @@ module.exports = {
       },
       {
         test: /\.html$/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]',
+        },
+      },
+      {
+        test: /\.html$/,
         use: [
           {
             loader: 'html-loader',
@@ -69,6 +79,13 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader',
+        options: {
+          inlineRequires: '/img/',
+        },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -124,8 +141,8 @@ module.exports = {
   },
   plugins: [
     new webpack.ProgressPlugin(),
-    ...generatePluginsArray('public/templates', next => {
-      const cleanFilename = getCleanFilePath(next);
+    ...generatePluginsArray(PAGES_PATH, next => {
+      const cleanFilename = getCleanFilePath(next, PAGES_PATH);
 
       return new HtmlWebpackPlugin({
         filename: cleanFilename,
