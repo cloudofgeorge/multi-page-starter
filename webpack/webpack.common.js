@@ -3,12 +3,13 @@ const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const { isDev } = require('./utils/modes');
 const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
 const { getCleanFilePath } = require('./utils/get-clean-file-path');
-const { OUTPUT_PATH, PAGES_PATH, ASSET_PATH } = require('./constants');
+const { OUTPUT_PATH, PAGES_PATH, ASSET_PATH, TEMPLATES_PATH } = require('./constants');
 
 module.exports = {
   entry: {
@@ -24,7 +25,7 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous',
     module: true,
-    assetModuleFilename: 'assets/[hash][ext][query]',
+    assetModuleFilename: 'public/[hash][ext][query]',
     environment: {
       arrowFunction: true,
       bigIntLiteral: false,
@@ -38,7 +39,7 @@ module.exports = {
     modules: [rootPath('node_modules')],
     alias: {
       '@': rootPath('src'),
-      assets: rootPath(ASSET_PATH),
+      public: rootPath(ASSET_PATH),
       handlebars: 'handlebars/dist/handlebars.min.js',
     },
     extensions: ['.hbs', '.js', '.ts', '.json'],
@@ -76,6 +77,20 @@ module.exports = {
             options: {
               sources: isDev,
               esModule: false,
+              attrs: [
+                ':srcset',
+                ':data-srcset',
+                'img:data-src',
+                'img:src',
+                'audio:src',
+                'video:src',
+                'track:src',
+                'embed:src',
+                'source:src',
+                'input:src',
+                'object:data',
+                'script:src',
+              ],
             },
           },
         ],
@@ -84,7 +99,8 @@ module.exports = {
         test: /\.hbs$/,
         loader: 'handlebars-loader',
         options: {
-          inlineRequires: '/img/',
+          inlineRequires: /\/public\//gi,
+          partialDirs: [rootPath(TEMPLATES_PATH)],
         },
       },
       {
@@ -140,6 +156,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new webpack.ProgressPlugin(),
     ...generatePluginsArray(PAGES_PATH, next => {
       const cleanFilename = getCleanFilePath(next, PAGES_PATH);

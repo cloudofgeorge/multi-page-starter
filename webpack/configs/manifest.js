@@ -15,7 +15,7 @@ const manifestConfig = {
   ios: false,
   icons: [
     {
-      src: rootPath('public/assets/img/pwa_icon/pwa.png'),
+      src: rootPath('public/img/pwa_icon/pwa.png'),
       sizes: [96, 128, 192, 256, 384, 512, 1024], // multiple sizes
       destination: 'favicon',
     },
