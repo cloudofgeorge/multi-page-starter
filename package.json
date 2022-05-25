@@ -24,9 +24,10 @@
     "test:coverage": "jest --coverage",
     "test:update": "jest -u",
     "dev:analyze": "npm run dev -- --env.addons=bundleanalyzer",
-    "analyze": "webpack --analyze -c ./webpack/analyze.js",
+    "analyze": "webpack --analyze -c webpack/scripts/analyze.js",
     "http-server": "http-server -c-1 dist",
-    "postinstall": "simple-git-hooks"
+    "postinstall": "simple-git-hooks",
+    "cricical-css:generate": "node ./webpack/scripts/critical-css.js"
   },
   "simple-git-hooks": {
     "pre-commit": "npx pretty-quick --staged && git add .",
@@ -74,6 +75,7 @@
     "autoprefixer": "^10.3.6",
     "babel-loader": "^8.2.4",
     "circular-dependency-plugin": "^5.2.2",
+    "critical": "^4.0.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^3.0.2",

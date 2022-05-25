@@ -9,7 +9,7 @@ const { isDev } = require('./utils/modes');
 const { rootPath } = require('./utils/root-path');
 const { generatePluginsArray } = require('./utils/generate-plugins-array');
 const { getCleanFilePath } = require('./utils/get-clean-file-path');
-const { OUTPUT_PATH, PAGES_PATH, ASSET_PATH, TEMPLATES_PATH } = require('./constants');
+const { OUTPUT_PATH, PAGES_PATH, ASSET_PATH, TEMPLATES_PATH } = require('./scripts/constants');
 
 module.exports = {
   entry: {

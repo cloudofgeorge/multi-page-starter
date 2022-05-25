@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 
 const { rootPath } = require('./utils/root-path');
-const { OUTPUT_PATH } = require('./constants');
+const { OUTPUT_PATH } = require('./scripts/constants');
 
 module.exports = merge(common, {
   mode: 'development',
