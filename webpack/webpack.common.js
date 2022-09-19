@@ -157,6 +157,12 @@ module.exports = {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
+    new webpack.ProvidePlugin({
+      // Make a global `process` variable that points to the `process` package,
+      // because the `util` package expects there to be a global variable named `process`.
+      // Thanks to https://stackoverflow.com/a/65018686/14239942
+      process: 'process/browser',
+    }),
     new webpack.ProgressPlugin(),
     ...generatePluginsArray(PAGES_PATH, next => {
       const cleanFilename = getCleanFilePath(next, PAGES_PATH);
@@ -175,8 +181,9 @@ module.exports = {
       path: rootPath('.env'),
       allowEmptyValues: true, // allow empty variables (e.g. `FOO=`) (treat it as empty string, rather than missing)
       systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
-      silent: true, // hide any errors
+      silent: false, // hide any errors
       defaults: false, // load '.env.defaults' as the default values if empty.
+      ignoreStub: true,
     }),
   ],
 };
