@@ -13,9 +13,14 @@ export class Bootstrap {
   }
 }
 
-export const initBootstrap = async (bootstrap: Bootstrap): Promise<Bootstrap> => {
+/*
+ * Initialize the core services of application
+ */
+export const setBootstrap = async (bootstrap: Bootstrap): Promise<Bootstrap> => {
   bootstrap.initService();
   await bootstrap.initAsyncService();
 
   return bootstrap;
 };
+
+export const initBootstrap = () => setBootstrap(new Bootstrap());

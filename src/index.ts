@@ -1,9 +1,9 @@
 import { serviceWorker } from './service-worker';
 import './styles/main.scss';
-import { initBootstrap, Bootstrap } from './app/bootstrap';
+import { initBootstrap } from './app/bootstrap';
 
 serviceWorker.register();
 
-initBootstrap(new Bootstrap());
+initBootstrap();
 
 // code here
